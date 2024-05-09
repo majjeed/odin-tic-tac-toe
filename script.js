@@ -122,8 +122,25 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
             switchPlayerTurn();
         }
 
+
         /*  This is where we would check for a winner and handle that logic,
         such as a win message. */
+        for (let i = 0; i < 3; i++) {
+            let count = 0;
+
+            for (let j = 0; j < 3; j++) {
+                if (board.getBoard()[i][j].getValue() === 1) {
+                    count++;
+                    if (count == 3) {
+                        console.log('PLAYER ONE WINS!!!');
+                    }
+                } else {
+                    count = 0;
+                }
+            }
+        }
+
+
         // Switch player turn
         printNewRound();
     };
@@ -135,7 +152,8 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
     // getActivePlayer for the UI version, so I'm revealing it now
     return {
         playRound,
-        getActivePlayer
+        getActivePlayer,
+        board
     };
 }
 
