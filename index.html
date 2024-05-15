@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,9 +8,36 @@
     <link rel="stylesheet" href="./styles.css">
     <script src="./script.js" defer></script>
 </head>
+
 <body>
     <div class="main">
         compiling through console...
+        <form action="" method="post">
+
+            <fieldset>
+                <legend>Enter the Names for:</legend>
+                <label for="playerOne">Player One: </label>
+                <input type="text" id="playerOne" name="playerOne">
+                <br>
+                <label for="playerTwo">Player Two: </label>
+                <input type="text" id="playerTwo" name="playerTwo">
+            </fieldset>
+            <button id="startBtn">
+                Start Game
+            </button>
+        </form>
+    </div>
+    <div class="gameContainer">
+        <div class="cellContainer"><button data-index-number="1" class="gameButton"></button></div>
+        <div class="cellContainer"><button data-index-number="2" class="gameButton"></button></div>
+        <div class="cellContainer"><button data-index-number="3" class="gameButton"></button></div>
+        <div class="cellContainer"><button data-index-number="4" class="gameButton"></button></div>
+        <div class="cellContainer"><button data-index-number="5" class="gameButton"></button></div>
+        <div class="cellContainer"><button data-index-number="6" class="gameButton"></button></div>
+        <div class="cellContainer"><button data-index-number="7" class="gameButton"></button></div>
+        <div class="cellContainer"><button data-index-number="8" class="gameButton"></button></div>
+        <div class="cellContainer"><button data-index-number="9" class="gameButton"></button></div>
     </div>
 </body>
+
 </html>

@@ -108,12 +108,12 @@ function checkWin(board, players) {
     return false; // No winner yet
 }
 
- 
+
 // The GameController will be responsible for controlling the 
 // flow and state of the game's turns, as well as whether
 // anybody has won the game
 function GameController(playerOneName = "Player One", playerTwoName = "Player Two") {
-    let board = Gameboard();
+    const board = Gameboard();
 
     const players = [
         {
@@ -151,9 +151,7 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
                 switchPlayerTurn();
             } else {
                 board.printBoard();
-                console.log('Starting New Game...');
-                board = Gameboard();
-                console.log(`${getActivePlayer().name}'s turn`);
+                console.log('Game Over...');
                 return;
             }
         }
@@ -174,4 +172,36 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
     };
 }
 
-const game = GameController();
+// example of how to start the game
+// pass two strings for player names otherwise use default names
+// const game = GameController();
+
+let game;
+let startBtn = document.querySelector('#startBtn');
+startBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+    let playerOne = document.querySelector('#playerOne').value;
+    let playerTwo = document.querySelector('#playerTwo').value;
+
+    if (playerOne && playerTwo) {
+        game = GameController(playerOne, playerTwo);
+    } else {
+        game = GameController();
+    }
+
+
+    // the button have a data attribute from 1 to 9 maybe instead give them data attribues
+    // for each row and column.
+});
+
+function updateButtons() {
+    let gameBtns = document.querySelectorAll('.gameButton');
+    gameBtns.forEach((button, index) => {
+        const row = Math.floor(index / 3);
+        const column = index % 3;
+        button.textContent = game.board.getBoard()[row][column].getValue();
+    });
+}
+
+
+
