@@ -81,13 +81,52 @@ function Cell() {
     return { addToken, getValue };
 }
 
+function checkWin(board, players) {
+    const values = players.map((player) => player.token); // Values to check for win
+
+    // Check rows and columns
+    for (let value of values) {
+        const playerName = players.find((player) => player.token === value).name;
+        for (let i = 0; i < 3; i++) {
+            // Check rows
+            if (
+                board.getBoard()[i][0].getValue() === value &&
+                board.getBoard()[i][1].getValue() === value &&
+                board.getBoard()[i][2].getValue() === value
+            ) {
+                console.log(`${playerName} WINS!!!`);
+                return true; // Game over
+            }
+            // Check columns
+            if (
+                board.getBoard()[0][i].getValue() === value &&
+                board.getBoard()[1][i].getValue() === value &&
+                board.getBoard()[2][i].getValue() === value
+            ) {
+                console.log(`${playerName} WINS!!!`);
+                return true; // Game over
+            }
+        }
+        // Check diagonals
+        if (
+            (board.getBoard()[0][0].getValue() === value && board.getBoard()[1][1].getValue() === value && board.getBoard()[2][2].getValue() === value) ||
+            (board.getBoard()[0][2].getValue() === value && board.getBoard()[1][1].getValue() === value && board.getBoard()[2][0].getValue() === value)
+        ) {
+            console.log(`${playerName} WINS!!!`);
+            return true; // Game over
+        }
+    }
+
+    return false; // No winner yet
+}
+
 /* 
 ** The GameController will be responsible for controlling the 
 ** flow and state of the game's turns, as well as whether
 ** anybody has won the game
 */
 function GameController(playerOneName = "Player One", playerTwoName = "Player Two") {
-    const board = Gameboard();
+    let board = Gameboard();
 
     const players = [
         {
@@ -120,7 +159,16 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
 
         //if a token is dropped switch the player's turn
         if (board.dropToken(row, column, getActivePlayer().token)) {
-            switchPlayerTurn();
+            if (!checkWin(board, players)) {
+                console.log("No winner yet");
+                switchPlayerTurn();
+            } else {
+                board.printBoard();
+                console.log('Starting New Game...');
+                board = Gameboard();
+                console.log(`${getActivePlayer().name}'s turn`);
+                return;
+            }
         }
 
 
@@ -140,48 +188,6 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
         //         }
         //     }
         // }
-
-        function checkWin(board) {
-            const values = ['X', 'O']; // Values to check for win
-
-            // Check rows and columns
-            for (let value of values) {
-                for (let i = 0; i < 3; i++) {
-                    // Check rows
-                    if (
-                        board.getBoard()[i][0].getValue() === value &&
-                        board.getBoard()[i][1].getValue() === value &&
-                        board.getBoard()[i][2].getValue() === value
-                    ) {
-                        console.log(`${value} WINS!!!`);
-                        return true; // Game over
-                    }
-                    // Check columns
-                    if (
-                        board.getBoard()[0][i].getValue() === value &&
-                        board.getBoard()[1][i].getValue() === value &&
-                        board.getBoard()[2][i].getValue() === value
-                    ) {
-                        console.log(`${value} WINS!!!`);
-                        return true; // Game over
-                    }
-                }
-                // Check diagonals
-                if (
-                    (board.getBoard()[0][0].getValue() === value && board.getBoard()[1][1].getValue() === value && board.getBoard()[2][2].getValue() === value) ||
-                    (board.getBoard()[0][2].getValue() === value && board.getBoard()[1][1].getValue() === value && board.getBoard()[2][0].getValue() === value)
-                ) {
-                    console.log(`${value} WINS!!!`);
-                    return true; // Game over
-                }
-            }
-
-            return false; // No winner yet
-        }
-
-        if (!checkWin(board)) {
-            console.log("No winner yet");
-        }
 
         // Print the board
         printNewRound();
