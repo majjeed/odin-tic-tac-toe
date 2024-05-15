@@ -1,9 +1,6 @@
-/*
-** The Gameboard represents the state of the board
-** Each equare holds a Cell (defined later)
-** and we expose a dropToken method to be able to add Cells to squares
-*/
-
+// The Gameboard represents the state of the board
+// Each square holds a Cell
+// and we expose a dropToken method to be able to add Cells to squares
 function Gameboard() {
     const rows = 3;
     const columns = 3;
@@ -24,24 +21,17 @@ function Gameboard() {
     // UI will eventually need to render it.
     const getBoard = () => board;
 
-    // In order to drop a token, we need to find what the lowest point of the
-    // selected column is, *then* change that cell's value to the player number
+    // In order to drop a token, we need to find what the point of the
+    // selected row and column is, *then* change that cell's value to the player number
     const dropToken = (row, column, player) => {
-        // Our board's outermost array represents the row,
-        // so we need to loop through the rows, starting at row 0,
-        // find all the rows that don't have a token, then take the
-        // last one, which will represent the bottom-most empty cell
         const availableCell = board[row][column].getValue();
-        //console.log('the value of this row/column is: ' + board[row][column].getValue());
 
-        // why not just make a 2d array that has 3 rows and 3 columns
-        // then pass in the data attribute of the row and column that was selected ???
-        // If no cells make it through the filter, 
-        // the move is invalid. Stop execution.        
+        // if the cell is not empty then the move is invalid       
         if (availableCell !== '') {
             console.log('\n This Spot is already taken, try again...');
             return false;
         };
+
         // Otherwise, I have a valid cell, the last one in the filtered array
         board[row][column].addToken(player);
         return true;
@@ -60,13 +50,10 @@ function Gameboard() {
     return { getBoard, dropToken, printBoard };
 }
 
-/*
-** A Cell represents one "square" on the board and can have one of
-** 0: no token is in the square,
-** 1: Player One's token,
-** 2: Player 2's token
-*/
-
+// A Cell represents one "square" on the board and can have one of
+// '': no token is in the square,
+// 'X': Player One's token,
+// 'O': Player Two's token
 function Cell() {
     let value = '';
 
@@ -81,6 +68,7 @@ function Cell() {
     return { addToken, getValue };
 }
 
+// Check the board for a win condition
 function checkWin(board, players) {
     const values = players.map((player) => player.token); // Values to check for win
 
@@ -120,11 +108,10 @@ function checkWin(board, players) {
     return false; // No winner yet
 }
 
-/* 
-** The GameController will be responsible for controlling the 
-** flow and state of the game's turns, as well as whether
-** anybody has won the game
-*/
+ 
+// The GameController will be responsible for controlling the 
+// flow and state of the game's turns, as well as whether
+// anybody has won the game
 function GameController(playerOneName = "Player One", playerTwoName = "Player Two") {
     let board = Gameboard();
 
@@ -170,24 +157,6 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
                 return;
             }
         }
-
-
-        /*  This is where we would check for a winner and handle that logic,
-        such as a win message. */
-        // for (let i = 0; i < 3; i++) {
-        //     let count = 0;
-
-        //     for (let j = 0; j < 3; j++) {
-        //         if (board.getBoard()[i][j].getValue() === 'X') {
-        //             count++;
-        //             if (count == 3) {
-        //                 console.log('PLAYER ONE WINS!!!');
-        //             }
-        //         } else {
-        //             count = 0;
-        //         }
-        //     }
-        // }
 
         // Print the board
         printNewRound();
