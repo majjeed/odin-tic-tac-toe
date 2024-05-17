@@ -208,7 +208,7 @@ startBtn.addEventListener('click', (event) => {
         game = GameController();
     }
     updateButtons();
-
+    updateResult();
     // the button have a data attribute from 1 to 9 maybe instead give them data attribues
     // for each row and column.
 });
@@ -229,8 +229,15 @@ gameBtns.forEach((button, index) => {
         let col = button.dataset.colNumber;
         game.playRound(row, col);
         updateButtons();
+        updateResult();
         if (game.isGameWon()) game.board.resetBoard();
     });
 });
 
+
+function updateResult() {
+    let result = document.querySelector('.result p');
+    result.textContent = `${game.getActivePlayer().name}'s turn`;
+    if (game.isGameWon()) result.textContent = `${game.getActivePlayer().name} Won the Game!!!`
+};
 
