@@ -9,3 +9,14 @@
 input {
     margin-top: 10px;
 }
+
+button {
+    width: 100px;
+    height: 25px;
+    padding: 5px;
+}
+
+.gameContainer {
+    display: grid;
+    grid-template-columns: 100px 100px 100px;
+}

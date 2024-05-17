@@ -203,5 +203,14 @@ function updateButtons() {
     });
 }
 
+let gameBtns = document.querySelectorAll('.gameButton');
+gameBtns.forEach((button, index) => {
+    button.addEventListener('click', () => {
+        let row = button.dataset.rowNumber;
+        let col = button.dataset.colNumber;
+        game.playRound(row, col);
+        updateButtons();
+    });
+});
 
 
