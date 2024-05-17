@@ -45,9 +45,18 @@ function Gameboard() {
         console.log(boardWithCellValues);
     };
 
+    //reset the board
+    const resetBoard = () => {
+        board.forEach((rowSet) => {
+            rowSet.forEach((cell) => {
+                cell.addToken('');
+            });
+        })
+    };
+
     // Here, we provide an interface for the rest of our
     // application to interact with the board
-    return { getBoard, dropToken, printBoard };
+    return { getBoard, dropToken, printBoard, resetBoard };
 }
 
 // A Cell represents one "square" on the board and can have one of
@@ -114,6 +123,7 @@ function checkWin(board, players) {
 // anybody has won the game
 function GameController(playerOneName = "Player One", playerTwoName = "Player Two") {
     const board = Gameboard();
+    let gameWon = false;
 
     const players = [
         {
@@ -131,7 +141,12 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
     const switchPlayerTurn = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
     }
+
     const getActivePlayer = () => activePlayer;
+
+    const getAllPlayers = () => players;
+
+    const isGameWon = () => gameWon;
 
     const printNewRound = () => {
         board.printBoard();
@@ -149,9 +164,11 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
             if (!checkWin(board, players)) {
                 console.log("No winner yet");
                 switchPlayerTurn();
+                gameWon = false;
             } else {
                 board.printBoard();
                 console.log('Game Over...');
+                gameWon = true;
                 return;
             }
         }
@@ -168,7 +185,9 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
     return {
         playRound,
         getActivePlayer,
-        board
+        getAllPlayers,
+        board,
+        isGameWon
     };
 }
 
@@ -188,7 +207,7 @@ startBtn.addEventListener('click', (event) => {
     } else {
         game = GameController();
     }
-
+    updateButtons();
 
     // the button have a data attribute from 1 to 9 maybe instead give them data attribues
     // for each row and column.
@@ -210,6 +229,7 @@ gameBtns.forEach((button, index) => {
         let col = button.dataset.colNumber;
         game.playRound(row, col);
         updateButtons();
+        if (game.isGameWon()) game.board.resetBoard();
     });
 });
 
