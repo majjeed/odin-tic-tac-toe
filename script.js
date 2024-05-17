@@ -225,12 +225,16 @@ function updateButtons() {
 let gameBtns = document.querySelectorAll('.gameButton');
 gameBtns.forEach((button, index) => {
     button.addEventListener('click', () => {
+        button.classList.add('clicked');
         let row = button.dataset.rowNumber;
         let col = button.dataset.colNumber;
         game.playRound(row, col);
         updateButtons();
         updateResult();
         if (game.isGameWon()) game.board.resetBoard();
+        setTimeout(() => {
+            button.classList.remove('clicked');
+        }, 300)
     });
 });
 

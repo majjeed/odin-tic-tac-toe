@@ -2,21 +2,81 @@
 *::before,
 *::after {
     box-sizing: border-box;
-    /* margin: 0;
-    padding: 0; */
+    margin: 0;
+    /* padding: 0; */
+    /* border: 2px solid rgb(255, 0, 0); */
 }
 
-input {
-    margin-top: 10px;
+input,
+label,
+fieldset {
+    padding: 10px;
+    font-size: 18px;
+    margin-bottom: 10px;
 }
 
 button {
-    width: 100px;
-    height: 25px;
+    width: 100%;
+    height: 100%;
     padding: 5px;
+    border: 2px solid rgb(0, 153, 255);
+    border-radius: 15px;
+    box-shadow: 0px 1px 5px -1px;
+    font-size: xx-large;
 }
 
 .gameContainer {
     display: grid;
-    grid-template-columns: 100px 100px 100px;
+    grid-template-columns: 150px 150px 150px;
+    grid-template-rows: 100px 100px 100px;
+    gap: 15px;
+    row-gap: 15px;
 }
+
+.result p {
+    font-size: 20px;
+}
+
+body {
+    width: 100%;
+    height: 600px;
+    background-color: #e3e3e3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 50px;
+}
+
+@keyframes buttonClick {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+button.clicked {
+    animation: buttonClick 0.3s ease;
+}
+
+#startBtn {
+    margin-top: 10px;
+}
+
+fieldset {
+    display: flex;
+    flex-direction: column;
+}
+
+/* add internal shadow 
+.gameButton.shadow {
+    box-shadow: inset 0px 0px 15px 10px grey;
+} */
